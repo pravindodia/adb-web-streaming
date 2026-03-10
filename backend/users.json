@@ -1,0 +1,8 @@
+[
+  {
+    "username": "admin",
+    "salt": "6afe50b9430c4b89529623e044c68375",
+    "hash": "be02b7b99594fcdafab321528b9f6e5652bad3490e533a6f749d2012b7c55f8d",
+    "lastDevice": "192.168.1.2:6767"
+  }
+]

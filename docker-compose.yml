@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      platforms:
+        - "linux/amd64"
+    ports:
+      - "5001:5001"
+      - "40000-40100:40000-40100/udp"
+      - "40000-40100:40000-40100/tcp"
+    env_file:
+      - .env
+    volumes:
+      - ./backend/users.json:/app/users.json:rw
+      # X11 display forwarding (for scrcpy GUI)
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - $HOME/.Xauthority:/root/.Xauthority:rw
+      # PulseAudio socket for audio
+      - /run/user/1000/pulse:/run/user/1000/pulse:rw
+      - $HOME/.config/pulse:/root/.config/pulse:rw
+    cap_add:
+      - SYS_NICE
+      - SYS_PTRACE
+    privileged: true
+    environment:
+      - NODE_ENV=production
+      - DISPLAY=${DISPLAY:-:0}
+      - XAUTHORITY=/root/.Xauthority
+      - PULSE_SERVER=unix:/run/user/1000/pulse/native
+      - QT_QPA_PLATFORM=offscreen
